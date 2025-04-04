@@ -79,9 +79,19 @@ public class SecondaryGunShoot : MonoBehaviour
         // Your code here.
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, Vector3.forward, out hit, 100f, shootableMask))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 100f, shootableMask))
         {
-            Debug.Log("hit");
+            // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+            Debug.Log(transform.position);
+            
+            gunLine.SetPosition(1, hit.point);
+        }
+        else
+        {
+            // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 100f, Color.blue);
+            Debug.Log("not hit");
+            
+            gunLine.SetPosition(1, transform.forward * range);
         }
     }
 }
