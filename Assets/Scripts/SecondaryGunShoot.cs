@@ -13,9 +13,11 @@ public class SecondaryGunShoot : MonoBehaviour
     RaycastHit shootHit;                            // A raycast hit to get information about what was hit.
     ParticleSystem gunParticles;                    // Reference to the particle system.
     LineRenderer gunLine;                           // Reference to the line renderer.
-    float effectsDisplayTime = 0.2f;                // The proportion of the timeBetweenBullets that the effects will display for.
+    float effectsDisplayTime = 0.5f;                // The proportion of the timeBetweenBullets that the effects will display for.
 
     private int shootableMask;
+
+    public GameObject lightningPrefab;
 
     void Awake()
     {
@@ -78,20 +80,36 @@ public class SecondaryGunShoot : MonoBehaviour
 
         // Your code here.
         RaycastHit hit;
+        
+        Vector3 shootDirection = transform.forward + new Vector3(0f, -0.05f, 0f);
+        shootDirection.Normalize();
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 100f, shootableMask))
+        if (Physics.Raycast(transform.position, shootDirection, out hit, range, shootableMask))
         {
             // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
-            Debug.Log(transform.position);
+            Debug.Log("Hit");
             
             gunLine.SetPosition(1, hit.point);
+            
+            GameObject hitGameObject = hit.collider.gameObject;
+            Debug.Log(hitGameObject.name);
+
+            if (hitGameObject.CompareTag("enemytank"))
+            {
+                Debug.Log("Hit enemytank");
+                GameObject lightning = Instantiate(lightningPrefab, hit.point, Quaternion.Euler(-90f, 0f, 0f));
+                lightning.gameObject.transform.SetParent(hitGameObject.transform);
+                ParticleSystem ps = lightning.GetComponent<ParticleSystem>();
+                ps.Play();
+                Destroy(hitGameObject, effectsDisplayTime);
+            }
         }
         else
         {
             // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 100f, Color.blue);
             Debug.Log("not hit");
             
-            gunLine.SetPosition(1, transform.forward * range);
+            gunLine.SetPosition(1, transform.position + shootDirection * range);
         }
     }
 }

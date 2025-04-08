@@ -56,6 +56,8 @@ public class ShellEmitter : MonoBehaviour {
 
     private void Fire()
     {
+        shellPrefab.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        
         // Set the fired flag so only Fire is only called once.
         m_Fired = true;
 

@@ -57,18 +57,20 @@ public class RadarAlarm : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             lineRenderer.material = Resources.Load<Material>("Materials/Alarm");
+            // Call the Spawn function after a delay of the spawnTime and then continue to call after the same amount of time.
+            InvokeRepeating("Spawn", 3f, 3f);
         }
-        
-        // Call the Spawn function after a delay of the spawnTime and then continue to call after the same amount of time.
-        //InvokeRepeating("Spawn", 3f, 3f);
     }
 
     public void OnTriggerExit(Collider other)
     {
 		// Your code here.
-        lineRenderer.material = Resources.Load<Material>("Materials/Save");
+        if (other.CompareTag("Player"))
+        {
+            lineRenderer.material = Resources.Load<Material>("Materials/Save");
 
-        //CancelInvoke("Spawn");
+            CancelInvoke("Spawn");
+        }
     }
 
 

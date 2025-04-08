@@ -5511,6 +5511,7 @@ MonoBehaviour:
   damagePerShot: 20
   timeBetweenBullets: 0.15
   range: 100
+  lightningPrefab: {fileID: 2705533495200665743, guid: e84c40719cee66744925cce01bef28fc, type: 3}
 --- !u!120 &1451864306
 LineRenderer:
   serializedVersion: 2
