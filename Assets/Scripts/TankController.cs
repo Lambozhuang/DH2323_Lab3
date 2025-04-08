@@ -65,6 +65,7 @@ public class TankController : MonoBehaviour
         m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
         m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
         m_MouseInputValue = Input.mousePosition;
+        Jump();
     }
 
     private void FixedUpdate()
@@ -74,6 +75,15 @@ public class TankController : MonoBehaviour
         Turn();
         RotateWheels();
         RotateTurret();
+        
+    }
+
+    private void Jump()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            m_Rigidbody.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+        }
     }
 
 

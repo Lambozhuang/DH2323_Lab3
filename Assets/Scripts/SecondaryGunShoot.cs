@@ -13,7 +13,7 @@ public class SecondaryGunShoot : MonoBehaviour
     RaycastHit shootHit;                            // A raycast hit to get information about what was hit.
     ParticleSystem gunParticles;                    // Reference to the particle system.
     LineRenderer gunLine;                           // Reference to the line renderer.
-    float effectsDisplayTime = 0.5f;                // The proportion of the timeBetweenBullets that the effects will display for.
+    float effectsDisplayTime = 2.5f;                // The proportion of the timeBetweenBullets that the effects will display for.
 
     private int shootableMask;
 
@@ -99,6 +99,9 @@ public class SecondaryGunShoot : MonoBehaviour
                 Debug.Log("Hit enemytank");
                 GameObject lightning = Instantiate(lightningPrefab, hit.point, Quaternion.Euler(-90f, 0f, 0f));
                 lightning.gameObject.transform.SetParent(hitGameObject.transform);
+                AudioSource audioSource = lightning.GetComponent<AudioSource>();
+                audioSource.time = 1.0f;
+                audioSource.Play();
                 ParticleSystem ps = lightning.GetComponent<ParticleSystem>();
                 ps.Play();
                 Destroy(hitGameObject, effectsDisplayTime);
